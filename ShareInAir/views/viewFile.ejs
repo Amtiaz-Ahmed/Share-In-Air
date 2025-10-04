@@ -1,0 +1,83 @@
+<%- include('partials/header') %>
+
+<div class="container page-container">
+    <% if (uploaded) { %>
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            Files uploaded successfully! Share the link below.
+        </div>
+    <% } %>
+
+    <h1 class="page-title">
+        <i class="fas fa-<%= isPrivate ? 'lock' : 'file' %>"></i>
+        <%= isPrivate ? 'Private' : 'Shared' %> Files
+    </h1>
+
+    <div class="file-view-container">
+        <div class="file-grid">
+            <% content.files.forEach((file, index) => { %>
+                <div class="file-card">
+                    <div class="file-icon">
+                        <i class="fas fa-file"></i>
+                    </div>
+                    <h3 class="file-name" title="<%= file.originalName %>">
+                        <%= file.originalName %>
+                    </h3>
+                    <p class="file-size">
+                        <%= (file.size / 1024 / 1024).toFixed(2) %> MB
+                    </p>
+                    <a href="<%= file.path %>" download="<%= file.originalName %>" class="btn btn-primary btn-small">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </a>
+                </div>
+            <% }) %>
+        </div>
+
+        <div class="file-info">
+            <p><i class="fas fa-clock"></i> Uploaded: <%= new Date(content.uploadTime).toLocaleString() %></p>
+            <p><i class="fas fa-hourglass-half"></i> Expires: <%= new Date(content.expiresAt).toLocaleString() %></p>
+        </div>
+
+        <% if (!isPrivate && shareUrl) { %>
+            <div class="share-section">
+                <h3>Share Link:</h3>
+                <div class="share-box">
+                    <input type="text" id="shareUrl" value="<%= shareUrl %>" readonly class="form-control">
+                    <button class="btn btn-primary" onclick="copyShareUrl()">
+                        <i class="fas fa-copy"></i>
+                        Copy
+                    </button>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="action-buttons">
+            <a href="/upload" class="btn btn-secondary">
+                <i class="fas fa-plus"></i>
+                Upload More
+            </a>
+            <a href="/" class="btn btn-outline">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyShareUrl() {
+    const urlInput = document.getElementById('shareUrl');
+    urlInput.select();
+    document.execCommand('copy');
+    
+    const btn = event.target.closest('button');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    setTimeout(() => {
+        btn.innerHTML = originalText;
+    }, 2000);
+}
+</script>
+
+<%- include('partials/footer') %>

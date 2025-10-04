@@ -1,0 +1,111 @@
+<%- include('partials/header') %>
+
+<div class="container page-container">
+    <h1 class="page-title">
+        <i class="fas fa-lock"></i>
+        Private Share
+    </h1>
+
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-btn active" data-tab="files">
+                <i class="fas fa-file"></i>
+                Files
+            </button>
+            <button class="tab-btn" data-tab="text">
+                <i class="fas fa-file-alt"></i>
+                Text
+            </button>
+        </div>
+
+        <!-- Files Tab -->
+        <div class="tab-content active" id="files-tab">
+            <form action="/private/files" method="POST" enctype="multipart/form-data" id="privateUploadForm">
+                <div class="form-group">
+                    <label for="fileSecretKey">Secret Key:</label>
+                    <input 
+                        type="text" 
+                        id="fileSecretKey" 
+                        name="secretKey" 
+                        class="form-control" 
+                        placeholder="Enter a secret key"
+                        required
+                    >
+                    <small>Share this key with intended recipients only</small>
+                </div>
+
+                <div class="upload-area" id="privateUploadArea">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h3>Drag & Drop files here</h3>
+                    <p>or</p>
+                    <label for="privateFileInput" class="btn btn-primary">
+                        <i class="fas fa-folder-open"></i>
+                        Browse Files
+                    </label>
+                    <input type="file" id="privateFileInput" name="files" multiple accept="*/*" hidden>
+                    <p class="upload-info">Maximum 10 files, 20MB each</p>
+                </div>
+
+                <div class="file-list" id="privateFileList"></div>
+
+                <button type="submit" class="btn btn-primary btn-large" id="privateUploadBtn" style="display: none;">
+                    <i class="fas fa-lock"></i>
+                    Upload Private Files
+                </button>
+            </form>
+        </div>
+
+        <!-- Text Tab -->
+        <div class="tab-content" id="text-tab">
+            <form action="/private/text" method="POST" id="privateTextForm">
+                <div class="form-group">
+                    <label for="textSecretKey">Secret Key:</label>
+                    <input 
+                        type="text" 
+                        id="textSecretKey" 
+                        name="secretKey" 
+                        class="form-control" 
+                        placeholder="Enter a secret key"
+                        required
+                    >
+                    <small>Share this key with intended recipients only</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="privateTextInput">Text Content:</label>
+                    <textarea 
+                        id="privateTextInput" 
+                        name="text" 
+                        class="form-control textarea-large" 
+                        placeholder="Type or paste your text here..."
+                        required
+                    ></textarea>
+                    <div class="char-count">
+                        <span id="privateCharCount">0</span> characters
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-large">
+                    <i class="fas fa-lock"></i>
+                    Share Private Text
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h3>Private Sharing Info</h3>
+        <ul>
+            <li><i class="fas fa-shield-alt"></i> Content is protected with your secret key</li>
+            <li><i class="fas fa-key"></i> Only people with the key can access your content</li>
+            <li><i class="fas fa-clock"></i> Content expires 60 minutes after last access</li>
+            <li><i class="fas fa-user-secret"></i> Keys are case-sensitive</li>
+        </ul>
+        
+        <div class="access-link">
+            <p>Already have a secret key? <a href="/private/access" class="link">Access private content</a></p>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

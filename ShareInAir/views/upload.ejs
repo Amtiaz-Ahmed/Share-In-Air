@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+
+<div class="container page-container">
+    <h1 class="page-title">
+        <i class="fas fa-cloud-upload-alt"></i>
+        Upload Files
+    </h1>
+
+    <% if (success) { %>
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            Files uploaded successfully!
+        </div>
+    <% } %>
+
+    <div class="upload-container">
+        <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                <h3>Drag & Drop files here</h3>
+                <p>or</p>
+                <label for="fileInput" class="btn btn-primary">
+                    <i class="fas fa-folder-open"></i>
+                    Browse Files
+                </label>
+                <input type="file" id="fileInput" name="files" multiple accept="*/*" hidden>
+                <p class="upload-info">Maximum 10 files, 20MB each</p>
+            </div>
+
+            <div class="file-list" id="fileList"></div>
+
+            <button type="submit" class="btn btn-primary btn-large" id="uploadBtn" style="display: none;">
+                <i class="fas fa-upload"></i>
+                Upload Files
+            </button>
+        </form>
+    </div>
+
+    <div class="info-section">
+        <h3>Upload Guidelines</h3>
+        <ul>
+            <li><i class="fas fa-check"></i> Maximum file size: 20MB per file</li>
+            <li><i class="fas fa-check"></i> Maximum files: 10 files per upload</li>
+            <li><i class="fas fa-check"></i> All file types accepted</li>
+            <li><i class="fas fa-check"></i> Files expire 60 minutes after last access</li>
+            <li><i class="fas fa-check"></i> Get a shareable link after upload</li>
+        </ul>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

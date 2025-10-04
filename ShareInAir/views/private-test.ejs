@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+
+<div class="container page-container">
+    <h1 class="page-title">
+        <i class="fas fa-lock"></i>
+        Private Share - Test Version
+    </h1>
+    
+    <div class="info-section">
+        <p>This is a test version of the private page to diagnose issues.</p>
+        <p>If you can see this, the basic routing and EJS rendering work.</p>
+        
+        <h3>Debug Info:</h3>
+        <ul>
+            <li>Title: <%= title %></li>
+            <li>Success parameter: <%= success || 'none' %></li>
+            <li>Request URL: Available in server logs</li>
+        </ul>
+        
+        <div style="margin-top: 2rem;">
+            <a href="/private-full" class="btn btn-primary">Try Full Private Page</a>
+            <a href="/" class="btn btn-secondary">Go Home</a>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

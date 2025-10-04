@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShareInAir Favicon Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        .favicon-preview { display: inline-block; margin: 10px; text-align: center; }
+        .favicon-canvas { border: 1px solid #ccc; margin: 5px; }
+        .download-btn { background: #3B82F6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        .download-btn:hover { background: #2563EB; }
+        .instructions { background: #e3f2fd; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 ShareInAir Favicon Generator</h1>
+        
+        <div class="instructions">
+            <h3>📋 Instructions:</h3>
+            <ol>
+                <li>Click the "Generate Favicons" button below</li>
+                <li>Right-click each favicon and "Save image as..."</li>
+                <li>Save them in the <code>/public/images/</code> folder with these exact names:
+                    <ul>
+                        <li><code>favicon-16x16.png</code></li>
+                        <li><code>favicon-32x32.png</code></li>
+                        <li><code>apple-touch-icon.png</code></li>
+                    </ul>
+                </li>
+                <li>Refresh your ShareInAir website to see the new tab logo!</li>
+            </ol>
+        </div>
+
+        <button class="download-btn" onclick="generateFavicons()">Generate Favicons</button>
+        
+        <div id="favicon-container"></div>
+    </div>
+
+    <script>
+        function generateFavicons() {
+            const container = document.getElementById('favicon-container');
+            container.innerHTML = '';
+            
+            const sizes = [
+                { name: 'favicon-16x16.png', size: 16 },
+                { name: 'favicon-32x32.png', size: 32 },
+                { name: 'apple-touch-icon.png', size: 180 }
+            ];
+            
+            sizes.forEach(favicon => {
+                const canvas = document.createElement('canvas');
+                canvas.width = favicon.size;
+                canvas.height = favicon.size;
+                canvas.className = 'favicon-canvas';
+                
+                const ctx = canvas.getContext('2d');
+                
+                // Background circle
+                ctx.fillStyle = '#3B82F6';
+                ctx.beginPath();
+                ctx.arc(favicon.size/2, favicon.size/2, favicon.size/2, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Paper plane icon (simplified for small sizes)
+                ctx.fillStyle = 'white';
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = Math.max(1, favicon.size/32);
+                
+                const scale = favicon.size / 32;
+                ctx.beginPath();
+                
+                // Main plane body
+                ctx.moveTo(22*scale, 8*scale);
+                ctx.lineTo(10*scale, 16*scale);
+                ctx.lineTo(14*scale, 18*scale);
+                ctx.lineTo(20*scale, 12*scale);
+                ctx.lineTo(16*scale, 20*scale);
+                ctx.lineTo(20*scale, 22*scale);
+                ctx.closePath();
+                ctx.fill();
+                
+                // Plane tail
+                ctx.moveTo(14*scale, 18*scale);
+                ctx.lineTo(16*scale, 24*scale);
+                ctx.lineTo(18*scale, 20*scale);
+                ctx.stroke();
+                
+                const div = document.createElement('div');
+                div.className = 'favicon-preview';
+                div.innerHTML = `
+                    <h3>${favicon.name}</h3>
+                    <div>${canvas.outerHTML}</div>
+                    <div>Size: ${favicon.size}x${favicon.size}px</div>
+                `;
+                
+                container.appendChild(div);
+            });
+            
+            container.innerHTML += `
+                <div style="margin-top: 20px; padding: 15px; background: #d4edda; border-radius: 5px;">
+                    <strong>✅ Favicons generated!</strong><br>
+                    Right-click each favicon above and select "Save image as..." to download them.
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

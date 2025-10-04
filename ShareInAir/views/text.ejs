@@ -1,0 +1,63 @@
+<%- include('partials/header') %>
+
+<div class="container page-container">
+    <h1 class="page-title">
+        <i class="fas fa-file-alt"></i>
+        Share Text
+    </h1>
+
+    <% if (success) { %>
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i>
+            Text shared successfully!
+        </div>
+    <% } %>
+
+    <div class="text-share-container">
+        <form action="/text" method="POST" id="textForm">
+            <div class="form-group">
+                <label for="textInput">Enter or paste your text:</label>
+                <textarea 
+                    id="textInput" 
+                    name="text" 
+                    class="form-control textarea-large" 
+                    placeholder="Type or paste your text here..."
+                    required
+                ></textarea>
+                <div class="char-count">
+                    <span id="charCount">0</span> characters
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-large">
+                <i class="fas fa-share"></i>
+                Share Text
+            </button>
+        </form>
+    </div>
+
+    <% if (publicTexts && publicTexts.length > 0) { %>
+        <div class="public-texts-section">
+            <h3>Recent Public Texts</h3>
+            <div class="text-list">
+                <% publicTexts.forEach(text => { %>
+                    <div class="text-item">
+                        <p class="text-preview"><%= text.text %></p>
+                        <div class="text-meta">
+                            <span class="text-time">
+                                <i class="fas fa-clock"></i>
+                                <%= new Date(text.uploadTime).toLocaleString() %>
+                            </span>
+                            <a href="/view/text/<%= text.id %>" class="btn btn-small">
+                                <i class="fas fa-eye"></i>
+                                View
+                            </a>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>

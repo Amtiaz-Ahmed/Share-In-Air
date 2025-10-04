@@ -1,0 +1,59 @@
+<%- include('partials/header') %>
+
+<div class="container page-container">
+    <h1 class="page-title">
+        <i class="fas fa-key"></i>
+        Access Private Content
+    </h1>
+
+    <% if (error) { %>
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-circle"></i>
+            Invalid or expired secret key. Please check and try again.
+        </div>
+    <% } %>
+
+    <div class="access-container">
+        <form action="/private/access" method="POST" id="accessForm">
+            <div class="form-group">
+                <label for="secretKey">Enter Secret Key:</label>
+                <input 
+                    type="text" 
+                    id="secretKey" 
+                    name="secretKey" 
+                    class="form-control form-control-large" 
+                    placeholder="Enter the secret key"
+                    required
+                    autofocus
+                >
+                <small>Keys are case-sensitive</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-large">
+                <i class="fas fa-unlock"></i>
+                Access Content
+            </button>
+        </form>
+    </div>
+
+    <div class="info-section">
+        <h3>How It Works</h3>
+        <ol>
+            <li>Enter the secret key provided by the content owner</li>
+            <li>Click "Access Content" to view the private files or text</li>
+            <li>Content will be available for 60 minutes after access</li>
+        </ol>
+    </div>
+</div>
+
+<script>
+document.getElementById('accessForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const key = document.getElementById('secretKey').value.trim();
+    if (key) {
+        window.location.href = '/private/' + encodeURIComponent(key);
+    }
+});
+</script>
+
+<%- include('partials/footer') %>

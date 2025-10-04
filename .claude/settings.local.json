@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(node:*)",
+      "Bash(NODE_ENV=development npm start)",
+      "Bash(NODE_ENV=development node server.js)"
+    ],
+    "deny": []
+  }
+}

@@ -1,0 +1,63 @@
+<%- include('partials/header') %>
+
+<div class="container page-container">
+    <div class="success-container">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        
+        <h1>Private Content Shared Successfully!</h1>
+        
+        <div class="key-display">
+            <h3>Your Secret Key:</h3>
+            <div class="key-box">
+                <code id="secretKey"><%= secretKey %></code>
+                <button class="btn btn-small copy-btn" onclick="copyKey()">
+                    <i class="fas fa-copy"></i>
+                    Copy
+                </button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>How to Access:</h3>
+            <ol>
+                <li>Share the secret key with your intended recipients</li>
+                <li>Recipients go to <a href="/private/access">Private Access</a></li>
+                <li>They enter the secret key to view your content</li>
+                <li>Content expires 60 minutes after last access</li>
+            </ol>
+        </div>
+
+        <div class="warning-box">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p><strong>Important:</strong> Save this key now! You won't be able to see it again.</p>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/private" class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                Share More
+            </a>
+            <a href="/" class="btn btn-secondary">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyKey() {
+    const keyText = document.getElementById('secretKey').textContent;
+    navigator.clipboard.writeText(keyText).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        }, 2000);
+    });
+}
+</script>
+
+<%- include('partials/footer') %>
