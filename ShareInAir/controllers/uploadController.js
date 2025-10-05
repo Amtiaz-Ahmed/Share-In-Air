@@ -2,6 +2,7 @@ const storage = require('../models/storage');
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const getClientIp = require('../utils/getClientIp');
 
 // Configure multer for file uploads
 const storageConfig = multer.diskStorage({
@@ -52,7 +53,10 @@ const uploadController = {
         path: `/uploads/${file.filename}`
       }));
 
-      const result = storage.addFile(fileData, false);
+      const uploaderIp = getClientIp(req);
+      console.log('Upload from IP:', uploaderIp); // Debug log
+      
+      const result = storage.addFile(fileData, false, null, uploaderIp);
       
       res.redirect(`/view/file/${result.id}?uploaded=true`);
     } catch (error) {

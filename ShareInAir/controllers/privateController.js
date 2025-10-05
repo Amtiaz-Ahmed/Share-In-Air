@@ -2,6 +2,7 @@ const storage = require('../models/storage');
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const getClientIp = require('../utils/getClientIp');
 
 // Configure multer for private uploads
 const storageConfig = multer.diskStorage({

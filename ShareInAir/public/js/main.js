@@ -1,5 +1,61 @@
+// Convert UTC times to local time with different formats for upload vs expiry
+function convertUTCToLocal() {
+    const timeElements = document.querySelectorAll('.local-time');
+    timeElements.forEach(element => {
+        const utcTime = element.getAttribute('data-utc');
+        const isExpiry = element.classList.contains('expiry-time') || 
+                        element.closest('p')?.textContent.includes('Expires');
+        
+        if (utcTime) {
+            const date = new Date(utcTime);
+            const now = new Date();
+            
+            if (isExpiry) {
+                // For expiry times - show future time or "Expired"
+                if (date > now) {
+                    const diffMs = date - now;
+                    const diffMins = Math.floor(diffMs / (1000 * 60));
+                    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                    
+                    if (diffMins < 60) {
+                        element.textContent = `in ${diffMins} minute${diffMins !== 1 ? 's' : ''}`;
+                    } else {
+                        element.textContent = `in ${diffHours} hour${diffHours !== 1 ? 's' : ''}`;
+                    }
+                } else {
+                    element.textContent = 'Expired';
+                }
+            } else {
+                // For upload times - show when it was created (past time)
+                const diffMs = now - date;
+                const diffMins = Math.floor(diffMs / (1000 * 60));
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                
+                let timeText;
+                if (diffMins < 1) {
+                    timeText = 'Just now';
+                } else if (diffMins < 60) {
+                    timeText = `${diffMins} minute${diffMins !== 1 ? 's' : ''} ago`;
+                } else if (diffHours < 24) {
+                    timeText = `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+                } else {
+                    timeText = date.toLocaleString();
+                }
+                element.textContent = timeText;
+            }
+            
+            element.title = date.toLocaleString(); // Show full time on hover
+        }
+    });
+}
+
 // Mobile Navigation Toggle
 document.addEventListener('DOMContentLoaded', function() {
+    // Convert all UTC times to local time
+    convertUTCToLocal();
+    
+    // Update times every minute for live relative times
+    setInterval(convertUTCToLocal, 60000);
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.querySelector('.nav-links');
 

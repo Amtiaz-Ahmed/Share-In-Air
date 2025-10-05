@@ -8,7 +8,7 @@ class Storage {
   }
 
   // File operations
-  addFile(fileData, isPrivate = false, secretKey = null) {
+  addFile(fileData, isPrivate = false, secretKey = null, uploaderIp = null) {
     const id = uuidv4();
     const entry = {
       id,
@@ -17,6 +17,7 @@ class Storage {
       lastAccess: new Date(),
       isPrivate,
       secretKey,
+      uploaderIp, // Track the uploader's IP
       expiresAt: new Date(Date.now() + 3600000) // 60 minutes
     };
 
@@ -39,7 +40,7 @@ class Storage {
   }
 
   // Text operations
-  addText(text, isPrivate = false, secretKey = null) {
+  addText(text, isPrivate = false, secretKey = null, uploaderIp = null) {
     const id = uuidv4();
     const entry = {
       id,
@@ -48,6 +49,7 @@ class Storage {
       lastAccess: new Date(),
       isPrivate,
       secretKey,
+      uploaderIp, // Track the uploader's IP
       expiresAt: new Date(Date.now() + 3600000)
     };
 
@@ -111,31 +113,35 @@ class Storage {
     return cleaned;
   }
 
-  // Get all public texts (for display on home)
-  getAllPublicTexts() {
+  // Get all public texts (for display on home) - filtered by IP
+  getAllPublicTexts(viewerIp = null) {
     const texts = [];
     for (const [id, text] of this.texts.entries()) {
-      if (!text.isPrivate) {
+      // Only show public texts from the same IP/network
+      if (!text.isPrivate && (!viewerIp || text.uploaderIp === viewerIp)) {
         texts.push({
           id: text.id,
           text: text.text.substring(0, 200) + (text.text.length > 200 ? '...' : ''),
-          uploadTime: text.uploadTime
+          uploadTime: text.uploadTime,
+          uploaderIp: text.uploaderIp
         });
       }
     }
     return texts.sort((a, b) => b.uploadTime - a.uploadTime).slice(0, 10);
   }
 
-  // Get all public files (for display on home)
-  getAllPublicFiles() {
+  // Get all public files (for display on home) - filtered by IP
+  getAllPublicFiles(viewerIp = null) {
     const files = [];
     for (const [id, fileData] of this.files.entries()) {
-      if (!fileData.isPrivate) {
+      // Only show public files from the same IP/network
+      if (!fileData.isPrivate && (!viewerIp || fileData.uploaderIp === viewerIp)) {
         files.push({
           id: fileData.id,
           files: fileData.files,
           uploadTime: fileData.uploadTime,
-          fileCount: fileData.files.length
+          fileCount: fileData.files.length,
+          uploaderIp: fileData.uploaderIp
         });
       }
     }

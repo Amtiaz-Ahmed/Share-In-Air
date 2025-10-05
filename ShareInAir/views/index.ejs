@@ -101,7 +101,7 @@
                             <div class="text-meta">
                                 <span class="text-time">
                                     <i class="fas fa-clock"></i>
-                                    <%= new Date(text.uploadTime).toLocaleString() %>
+                                    <span class="local-time" data-utc="<%= text.uploadTime %>"></span>
                                 </span>
                                 <a href="/view/text/<%= text.id %>" class="btn btn-small">
                                     <i class="fas fa-eye"></i>
@@ -126,9 +126,7 @@
                                     <span class="file-name">
                                         <%= fileData.fileCount %> file<%= fileData.fileCount > 1 ? 's' : '' %> shared
                                     </span>
-                                    <span class="file-time">
-                                        <%= new Date(fileData.uploadTime).toLocaleString() %>
-                                    </span>
+                                    <span class="file-time local-time" data-utc="<%= fileData.uploadTime %>"></span>
                                 </div>
                             </div>
                             <a href="/view/file/<%= fileData.id %>" class="btn btn-small">

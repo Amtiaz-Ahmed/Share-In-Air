@@ -1,16 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const storage = require('../models/storage');
+const getClientIp = require('../utils/getClientIp');
 
 // Home page
 router.get('/', (req, res) => {
-  const recentTexts = storage.getAllPublicTexts();
-  const recentFiles = storage.getAllPublicFiles();
+  const viewerIp = getClientIp(req);
+  console.log('Viewer IP:', viewerIp); // Debug log
+  
+  const recentTexts = storage.getAllPublicTexts(viewerIp);
+  const recentFiles = storage.getAllPublicFiles(viewerIp);
   
   res.render('index', {
     title: 'ShareInAir - Quick & Easy File Sharing',
     recentTexts,
-    recentFiles
+    recentFiles,
+    viewerIp // Pass to view for debugging
   });
 });
 

@@ -1,9 +1,11 @@
 const storage = require('../models/storage');
+const getClientIp = require('../utils/getClientIp');
 
 const textController = {
   // Show text share form
   showTextForm: (req, res) => {
-    const publicTexts = storage.getAllPublicTexts();
+    const viewerIp = getClientIp(req);
+    const publicTexts = storage.getAllPublicTexts(viewerIp);
     res.render('text', { 
       title: 'Share Text - ShareInAir',
       publicTexts,
@@ -23,7 +25,10 @@ const textController = {
         });
       }
 
-      const result = storage.addText(text.trim(), false);
+      const uploaderIp = getClientIp(req);
+      console.log('Text share from IP:', uploaderIp); // Debug log
+      
+      const result = storage.addText(text.trim(), false, null, uploaderIp);
       
       res.redirect(`/view/text/${result.id}?shared=true`);
     } catch (error) {

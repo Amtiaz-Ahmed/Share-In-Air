@@ -46,7 +46,7 @@
                         <div class="text-meta">
                             <span class="text-time">
                                 <i class="fas fa-clock"></i>
-                                <%= new Date(text.uploadTime).toLocaleString() %>
+                                <span class="local-time" data-utc="<%= text.uploadTime %>"></span>
                             </span>
                             <a href="/view/text/<%= text.id %>" class="btn btn-small">
                                 <i class="fas fa-eye"></i>
