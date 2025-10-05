@@ -20,7 +20,7 @@
 
         <div class="text-info">
             <p><i class="fas fa-clock"></i> Shared: <span class="local-time" data-utc="<%= content.uploadTime %>"></span></p>
-            <p><i class="fas fa-hourglass-half"></i> Expires: <span class="local-time" data-utc="<%= content.expiresAt %>"></span></p>
+            <p><i class="fas fa-hourglass-half"></i> Expires: <span class="local-time expiry-time" data-utc="<%= content.expiresAt %>"></span></p>
             <p><i class="fas fa-text-height"></i> Characters: <%= content.text.length %></p>
         </div>
 
